@@ -2,11 +2,12 @@
 # Make sure you enable the add-on "Materials Utils Special" in the Preferences window
 
 import bpy
+import os
 import glob
 
 # CONFIG BEGINS HERE
 
-# Directory of Blend files to convert. Script won't run if invalid
+# Directory of Blend files to convert. Should end in // or /. Script won't run if invalid
 
 blend_file_directory = "C://Path//To//Your//Blend//File/Folder//"
 
@@ -35,10 +36,12 @@ for file in blend_files:
 
         bpy.ops.wm.open_mainfile(filepath=file)
 
-        converted_name = bpy.path.display_name(bpy.data.filepath) + file_extension
-        converted_path = blend_file_directory + "/" + converted_name
+        converted_name = bpy.path.display_name(file) + file_extension
+        converted_path = os.path.dirname(file) + "/" + converted_name
 
         bpy.ops.ml.refresh()
+
+        print("Saving as: " + converted_path)
 
         bpy.ops.wm.save_as_mainfile(filepath=converted_path, check_existing=False)
     except:
